@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dolapta Ne Var - Akıllı Stok Takip Uygulaması</title>
+    <meta name="description" content="Mutfak ve ev stoklarınızı dijitalleştirin, israfı önleyin ve son kullanma tarihlerini kolayca takip edin.">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <style>
+        :root {
+            --primary: #e99438;
+            --primary-dark: #d6822b;
+            --primary-light: #fef3e6;
+            --text-main: #1a1a1a;
+            --text-muted: #666;
+            --bg-body: #fafafa;
+            --white: #ffffff;
+            --shadow: 0 10px 30px rgba(233, 148, 56, 0.15);
+            --radius: 20px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* Navigation */
+        nav {
+            height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(250, 250, 250, 0.8);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 32px;
+            align-items: center;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-muted);
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .btn-download-nav {
+            background: var(--primary);
+            color: white !important;
+            padding: 12px 24px;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: transform 0.3s, background 0.3s;
+        }
+
+        .btn-download-nav:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+
+        /* Hero Section */
+        .hero {
+            padding-top: 180px;
+            padding-bottom: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 60px;
+        }
+
+        .hero-content {
+            flex: 1;
+        }
+
+        .hero-tag {
+            background: var(--primary-light);
+            color: var(--primary);
+            padding: 8px 16px;
+            border-radius: 50px;
+            font-size: 14px;
+            font-weight: 600;
+            display: inline-block;
+            margin-bottom: 24px;
+        }
+
+        .hero h1 {
+            font-size: 64px;
+            line-height: 1.1;
+            font-weight: 700;
+            margin-bottom: 24px;
+            background: linear-gradient(135deg, #1a1a1a 0%, #4a4a4a 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero p {
+            font-size: 20px;
+            color: var(--text-muted);
+            margin-bottom: 40px;
+            max-width: 500px;
+        }
+
+        .hero-btns {
+            display: flex;
+            gap: 16px;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+            padding: 18px 36px;
+            border-radius: 16px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transition: all 0.3s;
+            box-shadow: var(--shadow);
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-4px);
+            box-shadow: 0 15px 40px rgba(233, 148, 56, 0.25);
+        }
+
+        .hero-image {
+            flex: 1;
+            position: relative;
+        }
+
+        .hero-image img {
+            width: 100%;
+            height: auto;
+            border-radius: 40px;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.1);
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+            100% { transform: translateY(0px); }
+        }
+
+        /* Features Section */
+        .features {
+            padding: 100px 0;
+            background: white;
+        }
+
+        .section-header {
+            text-align: center;
+            max-width: 700px;
+            margin: 0 auto 80px;
+        }
+
+        .section-header h2 {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+
+        .section-header p {
+            font-size: 18px;
+            color: var(--text-muted);
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 24px;
+        }
+
+        @media (max-width: 1400px) {
+            .features-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        .feature-card {
+            padding: 24px;
+            border-radius: var(--radius);
+            background: var(--bg-body);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: 1px solid rgba(0,0,0,0.03);
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .feature-card:hover {
+            background: white;
+            border-color: var(--primary-light);
+            box-shadow: 0 20px 40px rgba(233, 148, 56, 0.1);
+            transform: translateY(-10px);
+        }
+
+        .feature-icon {
+            width: 56px;
+            height: 56px;
+            background: var(--white);
+            border-radius: 14px;
+            display: flex;
+            align-items: center;            justify-content: center;
+            margin-bottom: 24px;
+            color: var(--primary);
+            box-shadow: 0 8px 16px rgba(0,0,0,0.04);
+            border: 1px solid rgba(0,0,0,0.02);
+        }
+
+        .feature-card h3 {
+            font-size: 20px;
+            margin-bottom: 12px;
+            font-weight: 700;
+        }
+
+        .feature-card p {
+            color: var(--text-muted);
+            font-size: 15px;
+            line-height: 1.5;
+        }
+
+        /* Stats Section */
+        .stats {
+            padding: 80px 0;
+            background: var(--primary);
+            color: white;
+        }
+
+        .stats-grid {
+            display: flex;
+            justify-content: space-around;
+            text-align: center;
+        }
+
+        .stat-item h4 {
+            font-size: 48px;
+            margin-bottom: 8px;
+        }
+
+        .stat-item p {
+            font-size: 18px;
+            opacity: 0.9;
+        }
+
+        /* CTA Section */
+        .cta {
+            padding: 120px 0;
+            text-align: center;
+        }
+
+        .cta-box {
+            background: var(--primary-light);
+            padding: 80px 40px;
+            border-radius: 40px;
+            max-width: 1000px;
+            margin: 0 auto;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta h2 {
+            font-size: 48px;
+            margin-bottom: 24px;
+        }
+
+        .cta p {
+            font-size: 20px;
+            color: var(--text-muted);
+            margin-bottom: 40px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Footer */
+        footer {
+            padding: 80px 0 40px;
+            background: #111;
+            color: white;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 60px;
+            margin-bottom: 60px;
+        }
+
+        .footer-logo {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 24px;
+        }
+
+        .footer-desc {
+            color: #999;
+            max-width: 300px;
+        }
+
+        .footer-links h5 {
+            font-size: 18px;
+            margin-bottom: 24px;
+        }
+
+        .footer-links ul {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 12px;
+        }
+
+        .footer-links a {
+            color: #999;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: var(--primary);
+        }
+
+        .footer-bottom {
+            padding-top: 40px;
+            border-top: 1px solid #333;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: #666;
+            font-size: 14px;
+        }
+
+        .domain-tag {
+            color: var(--primary);
+            font-weight: 600;
+            font-size: 16px;
+        }
+
+        @media (max-width: 968px) {
+            .hero {
+                flex-direction: column;
+                text-align: center;
+                padding-top: 140px;
+            }
+            .hero h1 { font-size: 48px; }
+            .hero p { margin: 0 auto 40px; }
+            .hero-btns { justify-content: center; }
+            .features-grid { grid-template-columns: 1fr; }
+            .footer-grid { grid-template-columns: 1fr; text-align: center; }
+            .footer-desc { margin: 0 auto; }
+            .nav-links { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="container" style="display: flex; justify-content: space-between; width: 100%; align-items: center;">
+            <div class="logo">
+                <i data-lucide="package"></i>
+                Dolapta Ne Var
+            </div>
+            <div class="nav-links">
+                <a href="#" class="btn-download-nav">Hemen İndir</a>
+            </div>
+        </div>
+    </nav>
+
+    <header class="container hero">
+        <div class="hero-content">
+            <span class="hero-tag">✨ Mutfakta İsrafa Son Verin</span>
+            <h1>Evinizdeki Stokları Akıllıca Yönetin</h1>
+            <p>Son kullanma tarihi geçen ürünlere veda edin. Dolapta Ne Var ile tüm envanteriniz parmaklarınızın ucunda.</p>
+            <div class="hero-btns">
+                <a href="#" class="btn-primary">
+                    <i data-lucide="download"></i>
+                    Uygulamayı İndir
+                </a>
+            </div>
+        </div>
+        <div class="hero-image">
+            <!-- Replace with the context of the generated image if possible, using a dynamic placeholder for now -->
+            <img src="app_mockup.png" alt="Dolapta Ne Var Uygulama Ekranı">
+        </div>
+    </header>
+
+    <section id="ozellikler" class="features">
+        <div class="container">
+            <div class="section-header">
+                <h2>Neden Dolapta Ne Var?</h2>
+                <p>Mutfak yönetiminizi dijitalleştirerek hem paradan hem de zamandan tasarruf etmeniz için tasarlandı.</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon"><i data-lucide="scan-barcode"></i></div>
+                    <h3>Detaylı Ürün Takibi</h3>
+                    <p>Ürünlerin adı, miktarı, birimi ve son kullanma tarihlerini saniyeler içinde kaydedin. Stoklarınızı her an güncel tutun.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon"><i data-lucide="bell-ring"></i></div>
+                    <h3>Akıllı Bildirimler</h3>
+                    <p>Tarihi yaklaşan ürünler için anlık bildirimler alın. "Bu ne zaman bozulmuş?" sorusunu tarihe gömün.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon"><i data-lucide="cloud-sync"></i></div>
+                    <h3>Bulut Senkronizasyonu</h3>
+                    <p>Premium ile verilerinizi tüm cihazlarınızda eşleştirin. Ailenizle ortak stok listesi oluşturun.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon"><i data-lucide="shield-check"></i></div>
+                    <h3>Güvenli ve Hızlı</h3>
+                    <p>Hafif yapısı ve optimize edilmiş performansı ile en düşük donanımlı cihazlarda bile akıcı deneyim.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta container">
+        <div class="cta-box">
+            <div style="position: absolute; top: -50px; right: -50px; width: 200px; height: 200px; background: var(--primary); opacity: 0.1; border-radius: 50%;"></div>
+            <div style="position: absolute; bottom: -80px; left: -80px; width: 300px; height: 300px; background: var(--primary); opacity: 0.05; border-radius: 50%;"></div>
+            
+            <h2>Hemen Denemeye Başlayın</h2>
+            <p>Ücretsiz sürümü indirerek mutfağınızı bugün düzenlemeye başlayın. Premium avantajları ile kontrolü tamamen elinize alın.</p>
+            <div class="hero-btns" style="justify-content: center; position: relative; z-index: 1;">
+                <a href="#" class="btn-primary" style="background: #111;">
+                    <i data-lucide="download"></i>
+                    Hemen İndir
+                </a>
+            </div>
+            <div style="margin-top: 40px; font-weight: 600; color: var(--primary);">
+                www.dolaptanevar.app
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div>
+                    <div class="footer-logo">Dolapta Ne Var</div>
+                    <p class="footer-desc">Ev ve işletme stok yönetimini dijitalleştirerek israfı azaltmayı hedefleyen akıllı çözüm.</p>
+                </div>
+                <div class="footer-links">
+                    <h5>Hızlı Bağlantılar</h5>
+                    <ul>
+                        <li><a href="#">Ana Sayfa</a></li>
+                        <li><a href="#ozellikler">Özellikler</a></li>
+                        <li><a href="#">Premium</a></li>
+                        <li><a href="#">Destek</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h5>Yasal</h5>
+                    <ul>
+                        <li><a href="#">Gizlilik Politikası</a></li>
+                        <li><a href="#">Kullanım Koşulları</a></li>
+                        <li><a href="#">KVKK Aydınlatma</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Dolaptanevar. Tüm hakları saklıdır.</p>
+                <div class="domain-tag">www.dolaptanevar.app</div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        lucide.createIcons();
+        
+        // Simple scroll animation for navbar
+        window.addEventListener('scroll', () => {
+            const nav = document.querySelector('nav');
+            if (window.scrollY > 50) {
+                nav.style.boxShadow = '0 5px 20px rgba(0,0,0,0.05)';
+                nav.style.height = '80px';
+            } else {
+                nav.style.boxShadow = 'none';
+                nav.style.height = '100px';
+            }
+        });
+    </script>
+</body>
+</html>
